@@ -11,10 +11,13 @@ set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/app.rc")
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
 find_package(VTK 9.0 )
 
+set(SRC ModelReader.h ModelReader.cpp)
+
 qt_add_executable(appMReader
     main.cpp
     ${RESOURCE_FILES}
     ${APP_ICON_RESOURCE_WINDOWS}
+    ${SRC}
 )
 
 qt_add_qml_module(appMReader

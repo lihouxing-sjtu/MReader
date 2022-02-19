@@ -1,8 +1,10 @@
 import QtQuick
 import VTKPLUS
+import ModelReader
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs
 
 Window {
 
@@ -13,6 +15,9 @@ Window {
     title: qsTr("MReader")
     Material.primary: Material.Indigo
     Material.accent: Material.LightBlue
+
+
+
     ColumnLayout{
         anchors.fill: parent
         spacing: 0
@@ -21,7 +26,12 @@ Window {
             Menu{
                 id: fileMenu
                 title: 'Files'
-                Action { text: qsTr("&Open...") }
+                Action {
+                    text: qsTr("&Open...")
+                    onTriggered: {
+                        stlFileLoader.open()
+                    }
+                }
                 Action { text: qsTr("&Save") }
             }
 
@@ -50,6 +60,14 @@ Window {
                 renderWindow: vtkwindow
             }
 
+        }
+    }
+
+    FileDialog{
+        id:stlFileLoader
+        nameFilters: ["stl files (*.stl)"]
+        onAccepted: {
+            ModelReader.filePath = stlFileLoader.selectedFile
         }
     }
 }
