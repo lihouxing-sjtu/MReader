@@ -1,7 +1,9 @@
 #include "ModelReader.h"
 #include <QDebug>
+#include <QRandomGenerator>
 #include <vtkActor.h>
 #include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
 
 ModelReader::ModelReader(QObject *parent) : QObject{parent} {}
 
@@ -31,8 +33,15 @@ void ModelReader::readSTL() {
 
   auto mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
   mapper->SetInputData(reader->GetOutput());
+
+  int r = QRandomGenerator::global()->bounded(0, 255);
+  int g = QRandomGenerator::global()->bounded(0, 255);
+  int b = QRandomGenerator::global()->bounded(0, 255);
+
   auto actor = vtkSmartPointer<vtkActor>::New();
   actor->SetMapper(mapper);
+  actor->GetProperty()->SetColor(r / 255.0, g / 255.0, b / 255.0);
+
   m_renderItem->renderer()->AddActor(actor);
   m_renderItem->renderer()->ResetCamera();
   m_actorList.append(actor);
